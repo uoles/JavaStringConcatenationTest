@@ -35,39 +35,44 @@ public class Main {
     }
 
     private interface Func {
-        void execute();
+        String execute();
     }
 
-    private static void builderRepeat() {
+    private static String builderRepeat() {
         StringBuilder s = new StringBuilder();
         s.append("*".repeat(count));
+        return s.toString();
     }
 
-    private static void builder() {
+    private static String builder() {
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < count; i++) {
             s.append("*");
         }
+        return s.toString();
     }
 
-    private static void concat() {
+    private static String concat() {
         String s = "";
         for (long i = 0; i < count; i++) {
             s = s + "*";
         }
+        return s;
     }
 
-    private static void join() {
+    private static String join() {
         String s = "";
         for (int i = 0; i < count; i++) {
             String.join("", s, "*");
         }
+        return s;
     }
 
-    private static void joiner() {
+    private static String joiner() {
         StringJoiner joiner = new StringJoiner("");
         for (int i = 0; i < count; i++) {
             joiner.add("*");
         }
+        return joiner.toString();
     }
 }
