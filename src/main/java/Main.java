@@ -54,7 +54,7 @@ public class Main {
 
     private static String concat() {
         String s = "";
-        for (long i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++) {
             s = s + "*";
         }
         return s;
