@@ -1,0 +1,73 @@
+import java.util.StringJoiner;
+
+public class Main {
+
+    private static final int count = 100000;
+    private static Runtime runtime = Runtime.getRuntime();
+
+    public static void main(String[] args) {
+        checkMethod("builderRepeat", Main::builderRepeat);
+        checkMethod("builder", Main::builder);
+        checkMethod("concat", Main::concat);
+        checkMethod("join", Main::join);
+        checkMethod("joiner", Main::joiner);
+    }
+
+    public static void checkMethod(final String name, final Func func) {
+        long memoryBefore = checkMemory();
+        long timeBefore = System.currentTimeMillis();
+        try {
+            func.execute();
+        } finally {
+            long timeAfter = System.currentTimeMillis();
+            long memoryAfter = checkMemory();
+            
+            System.out.println("Before memory is bytes: " + memoryBefore);
+            System.out.println("After memory is bytes: " + memoryAfter);
+            System.out.println("\n" + name + " elapsed " + (timeAfter - timeBefore) + " ms");
+            System.out.println("Used memory is bytes: " + (memoryAfter - memoryBefore));
+            System.out.println("================================================");
+        }
+    }
+
+    private static long checkMemory() {
+        return runtime.totalMemory() - runtime.freeMemory();
+    }
+
+    private interface Func {
+        void execute();
+    }
+
+    private static void builderRepeat() {
+        StringBuilder s = new StringBuilder();
+        s.append("*".repeat(count));
+    }
+
+    private static void builder() {
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            s.append("*");
+        }
+    }
+
+    private static void concat() {
+        String s = "";
+        for (long i = 0; i < count; i++) {
+            s = s + "*";
+        }
+    }
+
+    private static void join() {
+        String s = "";
+        for (int i = 0; i < count; i++) {
+            String.join("", s, "*");
+        }
+    }
+
+    private static void joiner() {
+        StringJoiner joiner = new StringJoiner("");
+        for (int i = 0; i < count; i++) {
+            joiner.add("*");
+        }
+    }
+}
